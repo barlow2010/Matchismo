@@ -10,6 +10,20 @@
 
 @implementation PlayCard
 
+- (int)match:(NSArray *)otherCards
+{
+    int score = 0;
+    PlayCard *card = [otherCards firstObject];
+    if (card) {
+        if (card.rank == self.rank) {
+            score = 4;
+        }else if ([card.suit isEqualToString:self.suit]) {
+            score = 1;
+        }
+    }
+    return score;
+}
+
 - (NSString *)contents
 {
     NSArray * rankStrings = [PlayCard rankArray];
