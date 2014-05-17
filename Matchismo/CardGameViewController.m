@@ -7,7 +7,7 @@
 //
 
 #import "CardGameViewController.h"
-#import "PlayCard.h"
+#import "Card.h"
 #import "PlayCardDeck.h"
 
 @interface CardGameViewController ()
@@ -15,23 +15,21 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *filpCountLabel;
 @property(nonatomic) int flipCount;
-@property(strong, nonatomic) Deck *playDeck;
+@property(strong, nonatomic) Deck *deck;
 @end
 
 @implementation CardGameViewController
 
-- (void)viewDidLoad
+- (Deck *)deck
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    if(!_deck) _deck = [self createDeck];
+    return _deck;
 }
 
-- (void)didReceiveMemoryWarning
+- (Deck *)createDeck
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    return [[PlayCardDeck alloc]init];
 }
-
 - (void)setFlipCount:(int)count
 {
     _flipCount = count;
@@ -39,20 +37,23 @@
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
-    if (self.playDeck == nil) {
-        self.playDeck = [[PlayCardDeck alloc]init];
+    if (self.deck == nil) {
+        self.deck = [[PlayCardDeck alloc]init];
     }
     if ([sender.currentTitle length]) {
         UIImage *image = [UIImage imageNamed:@"cardback"];
         [sender setBackgroundImage:image forState:UIControlStateNormal];
         [sender setTitle:@"" forState:UIControlStateNormal];
+        self.flipCount ++;
     } else {
-        UIImage *image = [UIImage imageNamed:@"cardfront"];
-        [sender setBackgroundImage:image forState:UIControlStateNormal];
-        Card *card = [self.playDeck drawRandomCard];
-        [sender setTitle:card.contents forState:UIControlStateNormal];
+        Card *card = [self.deck drawRandomCard];
+        if(card) {
+            UIImage *image = [UIImage imageNamed:@"cardfront"];
+            [sender setBackgroundImage:image forState:UIControlStateNormal];
+            [sender setTitle:card.contents forState:UIControlStateNormal];
+            self.flipCount ++;
+        }
     }
-    self.flipCount ++;
     
 }
 
