@@ -17,4 +17,5 @@
                    usingDeck:(Deck *)deck;
 - (void)chooseCardAtIndex:(NSUInteger)index;
 - (Card *)cardIndex:(NSUInteger)index;
+- (NSString *)tipForUser;
 @end

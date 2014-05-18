@@ -12,7 +12,7 @@
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
 @property (nonatomic, strong) NSMutableArray *chooseCards;
-
+@property (nonatomic, strong) NSString *tip;
 @end
 
 @implementation CardMatchingGame
@@ -74,18 +74,24 @@ static const int CONST_MATCH = 4;
                     card.matched = YES;
                     card.chosen = YES;
                     [self setCards:self.chooseCards withMatched:YES];
-                    self.score += matchScore * CONST_MATCH * self.matchCount;
+                    matchScore *= CONST_MATCH * self.matchCount;
+                    self.score += matchScore;
                     [self.chooseCards removeAllObjects];
-                    return;
+                    self.tip = [[NSString alloc]initWithFormat:@"恭喜你，匹配成功，奖励%d分！",matchScore];
                 } else {
                     [self setCards:self.chooseCards withChoosen:NO];
                     self.score -= CONST_NO_MATCH;
                     [self.chooseCards removeAllObjects];
+                    self.tip = [[NSString alloc]initWithFormat:@"很遗憾，匹配失败，减%d分！",CONST_NO_MATCH];
+                    card.chosen = YES;
+                    [self.chooseCards addObject:card];
                 }
+            }else {
+                card.chosen = YES;
+                [self.chooseCards addObject:card];
+                self.score -= CONST_TO_CHOSE;
+                self.tip = [[NSString alloc]initWithFormat:@"翻开一张扑克牌，花费%d分！",CONST_TO_CHOSE];
             }
-            card.chosen = YES;
-            [self.chooseCards addObject:card];
-            self.score -= CONST_TO_CHOSE;
             
         } else {
             card.chosen = NO;
@@ -104,5 +110,10 @@ static const int CONST_MATCH = 4;
     for (Card *card in cards) {
         card.chosen = choose;
     }
+}
+
+- (NSString *)tipForUser
+{
+    return self.tip;
 }
 @end

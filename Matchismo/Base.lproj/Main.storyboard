@@ -161,14 +161,14 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score:0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBz-Ar-CrX">
-                                <rect key="frame" x="20" y="430" width="227" height="30"/>
+                                <rect key="frame" x="20" y="430" width="111" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rft-Hy-xRi">
-                                <rect key="frame" x="20" y="380" width="111" height="42"/>
+                                <rect key="frame" x="177" y="424" width="111" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="MatchCount:2">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,11 +178,19 @@
                                     <action selector="touchMatchCountButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3Ud-jS-r6g"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJI-nH-S3b">
+                                <rect key="frame" x="20" y="396" width="273" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.26163390780946916" green="1" blue="0.026277546981107403" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="scoreLabel" destination="iBz-Ar-CrX" id="nyc-V5-NId"/>
+                        <outlet property="tipLabel" destination="CJI-nH-S3b" id="4zw-tv-ZBp"/>
                         <outletCollection property="cardButtons" destination="Pjx-PG-RRT" id="nX1-Co-ILq"/>
                         <outletCollection property="cardButtons" destination="Zdb-v7-4as" id="NuS-pE-D7O"/>
                         <outletCollection property="cardButtons" destination="VAX-Od-mr0" id="GY1-xK-i3D"/>

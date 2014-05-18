@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property(strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (nonatomic) uint matchCount;
 @end
 
@@ -75,6 +76,7 @@
         cardButton.enabled = !card.isMatched;
     }
     self.scoreLabel.text = [[NSString alloc]initWithFormat:@"Score:%d", self.game.score];
+    self.tipLabel.text = [self.game tipForUser];
 }
 
 - (NSString *)titleForCard:(Card *)card
