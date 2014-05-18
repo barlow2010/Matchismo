@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property(strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (nonatomic) uint matchCount;
 @end
 
 @implementation CardGameViewController
@@ -39,7 +40,24 @@
 {
     return [[PlayCardDeck alloc]init];
 }
+- (uint)matchCount
+{
+    if (!_matchCount) {
+        self.matchCount = 2;
+    }
+    return _matchCount;
+}
 
+- (IBAction)touchMatchCountButton:(id)sender {
+    if (self.matchCount == 2) {
+        self.matchCount = 3;
+    } else {
+        self.matchCount = 2;
+    }
+    [self.game setMatchCount:self.matchCount];
+    NSString *title = [[NSString alloc]initWithFormat:@"MatchCount:%d",self.matchCount];
+    [sender setTitle:title forState:UIControlStateNormal];
+}
 
 - (IBAction)touchCardButton:(UIButton *)sender {
     int index = [self.cardButtons indexOfObject:sender];

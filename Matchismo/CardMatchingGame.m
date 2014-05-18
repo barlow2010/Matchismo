@@ -11,6 +11,8 @@
 @interface CardMatchingGame ()
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
+@property (nonatomic, strong) NSMutableArray *chooseCards;
+
 @end
 
 @implementation CardMatchingGame
@@ -23,6 +25,12 @@ static const int CONST_MATCH = 4;
 {
     if (!_cards) _cards = [[NSMutableArray alloc]init];
     return _cards;
+}
+
+- (NSMutableArray *)chooseCards
+{
+    if (!_chooseCards) _chooseCards = [[NSMutableArray alloc]init];
+    return _chooseCards;
 }
 
 - (instancetype)initWithCount:(NSUInteger)count
@@ -44,6 +52,9 @@ static const int CONST_MATCH = 4;
             }
         }
     }
+    if (self) {
+        self.matchCount = 2;
+    }
     return self;
 }
 
@@ -57,27 +68,41 @@ static const int CONST_MATCH = 4;
     Card * card = [self cardIndex:index];
     if (card && !card.isMatched) {
         if (!card.isChosen) {
-            for (Card * otherCard in self.cards) {
-                if (otherCard.isChosen && !otherCard.isMatched) {
-                    int matchScore = [card match:@[otherCard]];
-                    if (matchScore) {
-                        card.matched = YES;
-                        otherCard.matched = YES;
-                        self.score += matchScore*CONST_MATCH;
-                    } else {
-                        card.chosen = NO;
-                        otherCard.chosen = NO;
-                        self.score -= CONST_NO_MATCH;
-                    }
-                    break;
+            if ([self.chooseCards count]+1 == self.matchCount) {
+                int matchScore = [card match:self.chooseCards];
+                if (matchScore) {
+                    card.matched = YES;
+                    card.chosen = YES;
+                    [self setCards:self.chooseCards withMatched:YES];
+                    self.score += matchScore * CONST_MATCH * self.matchCount;
+                    [self.chooseCards removeAllObjects];
+                    return;
+                } else {
+                    [self setCards:self.chooseCards withChoosen:NO];
+                    self.score -= CONST_NO_MATCH;
+                    [self.chooseCards removeAllObjects];
                 }
             }
             card.chosen = YES;
+            [self.chooseCards addObject:card];
             self.score -= CONST_TO_CHOSE;
+            
         } else {
             card.chosen = NO;
         }
     }
-    NSLog(@"chooseCardAtIndex = %d", card.chosen);
+}
+
+- (void)setCards:(NSMutableArray *)cards withMatched:(BOOL)match
+{
+    for (Card *card in cards) {
+        card.matched = match;
+    }
+}
+- (void)setCards:(NSMutableArray *)cards withChoosen:(BOOL)choose
+{
+    for (Card *card in cards) {
+        card.chosen = choose;
+    }
 }
 @end
